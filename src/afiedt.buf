@@ -1,0 +1,2 @@
+insert into USUARIO (usuario_id, email, nombre, ap_paterno, ap_materno, password, fecha_ingreso, vigente, fecha_cuenta_fin, num_tarjeta, tipo_cuenta_id) values (1, 'ddomico0@uiuc.edu', 'Denys', 'McColgan', 'Domico', 'diKJwNcRLSKi', '2009-06-17 05:33:27', 1, '2011-06-17 05:33:27', '8960148041966456', 1)
+/

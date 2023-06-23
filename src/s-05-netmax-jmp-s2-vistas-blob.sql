@@ -24,5 +24,5 @@ Prompt creando vista ARCHIVO_PROGRAMA
   from archivo_programa_f1
   union all
   select num_archivo,programa_id,
-    get_remote_archivo_f2_by_id(num_archivo,programa_id), tamanio 
+    get_remote_archivo_f2_by_id(programa_id,num_archivo), tamanio 
   from archivo_programa_f2;

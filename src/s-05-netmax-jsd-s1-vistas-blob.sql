@@ -20,7 +20,7 @@ create or replace view DOCUMENTAL as
 Prompt creando vista ARCHIVO_PROGRAMA
   create or replace view ARCHIVO_PROGRAMA as
   select num_archivo,programa_id, 
-    get_remote_archivo_f1_by_id(num_archivo,programa_id) as archivo, tamanio 
+    get_remote_archivo_f1_by_id(programa_id,num_archivo) as archivo, tamanio 
   from archivo_programa_f1
   union all
   select num_archivo,programa_id, archivo, tamanio 

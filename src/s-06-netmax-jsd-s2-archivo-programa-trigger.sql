@@ -14,8 +14,12 @@ begin
       insert into ti_archivo_programa_1(programa_id, num_archivo, archivo, tamanio)
       values(:new.programa_id, :new.num_archivo, :new.archivo, :new.tamanio);
 
-      insert into archivo_programa_f1(programa_id, num_archivo, archivo, tamanio)
-      values(:new.programa_id, :new.num_archivo, :new.archivo, :new.tamanio);
+      insert into archivo_programa_f1
+        select * from ti_archivo_programa_1
+        where programa_id = :new.programa_id and num_archivo = :new.num_archivo;
+
+      delete from ti_archivo_programa_1
+      where programa_id = :new.programa_id and num_archivo = :new.num_archivo;
 
     elsif :new.tamanio <= 10 then
 
@@ -42,19 +46,19 @@ begin
     if :old.tamanio > 10 then
 
       delete from archivo_programa_f1
-      where programa_id = :new.programa_id and num_archivo = :new.num_archivo;
+      where programa_id = :old.programa_id and num_archivo = :old.num_archivo;
 
     elsif :old.tamanio <= 10 then
 
       delete from archivo_programa_f2
-      where programa_id = :new.programa_id and num_archivo = :new.num_archivo;
+      where programa_id = :old.programa_id and num_archivo = :old.num_archivo;
 
     else
 
       raise_application_error(-20010,
         'El registro que se intenta insertar o eliminar no cumple con el esquema de '
         ||'fragmentación horizontal primaria.'
-        ||'TAMANIO = ' ||:new.tamanio);
+        ||'TAMANIO = ' ||:old.tamanio);
 
     end if;
 
@@ -67,4 +71,5 @@ begin
   end case;
 end;
 /
+  --network "host" \
 show errors

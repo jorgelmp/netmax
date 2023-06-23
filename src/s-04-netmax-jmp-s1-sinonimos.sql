@@ -14,6 +14,10 @@ create or replace synonym documental_f1 for documental_f1_jmp_s1;
 create or replace synonym documental_f2 for documental_f2_jsd_s1@jsdbd_s1.fi.unam;
 create or replace synonym documental_f3 for documental_f3_jsd_s2@jsdbd_s2.fi.unam;
 
+Prompt Creando sinónimos para HISTORICO_STATUS_PROGRAMA
+create or replace synonym historico_status_programa_f1
+for historico_status_programa_jsd_s2@jsdbd_s2.fi.unam;
+
 Prompt Creando sinónimos para PAIS
 create or replace synonym pais_r1 for pais_r_jmp_s1;
 create or replace synonym pais_r2 for pais_r_jmp_s2@jmpbd_s2.fi.unam;
@@ -40,6 +44,10 @@ Prompt Creando sinónimos para SERIE
 create or replace synonym serie_f1 for serie_f1_jmp_s1;
 create or replace synonym serie_f2 for serie_f2_jsd_s1@jsdbd_s1.fi.unam;
 create or replace synonym serie_f3 for serie_f3_jsd_s2@jsdbd_s2.fi.unam;
+
+
+Prompt Creando sinónimos para STATUS_PROGRAMA
+create or replace synonym status_programa for status_programa_jmp_s1;
 
 Prompt Creando sinónimos para TIPO_CUENTA
 create or replace synonym tipo_cuenta_r1 for tipo_cuenta_r_jmp_s1;

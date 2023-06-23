@@ -2,6 +2,11 @@
 --@Fecha:       21/05/2023 
 --@Descripción: Creación de fragmentos en los 4 nodos
 
+Prompt creando vista HISTORICO_STATUS_PROGRAMA
+create or replace view historico_status_programa as
+  select historico_status_prog_id, programa_id, fecha_status, status_programa_id
+  from historico_status_programa_f1;
+
 Prompt creando vista PAIS
 create or replace view pais as
   select pais_id, clave, nombre, continente
@@ -70,8 +75,8 @@ create or replace view playlist as
 
 Prompt creando vista USUARIO
 create or replace view usuario as
-  select q.usuario_id, q.email, q.nombre, q.ap_paterno, q.ap_materno, q.fecha_ingreso, 
-    q.fecha_cuenta_fin, q.vigente, q.tipo_cuenta_id, u.num_tarjeta, u.password
+  select q.usuario_id, q.email, q.nombre, q.ap_paterno, q.ap_materno,u.password,
+    q.fecha_ingreso, q.vigente, q.fecha_cuenta_fin,u.num_tarjeta, q.tipo_cuenta_id
   from (
     select usuario_id, email, nombre, ap_paterno, ap_materno, fecha_ingreso, 
       fecha_cuenta_fin, vigente, tipo_cuenta_id

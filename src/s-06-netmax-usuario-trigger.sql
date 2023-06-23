@@ -12,6 +12,14 @@ begin
 
     insert into usuario_f1(usuario_id, num_tarjeta, password)
     values(:new.usuario_id, :new.num_tarjeta, :new.password);
+    
+    if :new.vigente not in(0,1) then
+      raise_application_error(-20010,
+        'El registro que se intenta insertar o eliminar no cumple con el esquema de '
+        ||'fragmentación horizontal primaria.'
+        ||'VIGENTE = ' ||:new.vigente
+        ||'TIPO_CUENTA_ID = ' ||:new.tipo_cuenta_id);
+    end if;
 
     if :new.vigente = 0 then
 
@@ -42,7 +50,6 @@ begin
         :new.fecha_ingreso, :new.fecha_cuenta_fin, :new.vigente, :new.tipo_cuenta_id);
 
     else
-
       raise_application_error(-20010,
         'El registro que se intenta insertar o eliminar no cumple con el esquema de '
         ||'fragmentación horizontal primaria.'
@@ -77,21 +84,17 @@ begin
       where usuario_id = :old.usuario_id;
 
     else
-
       raise_application_error(-20010,
         'El registro que se intenta insertar o eliminar no cumple con el esquema de '
         ||'fragmentación horizontal primaria.'
         ||'VIGENTE = ' ||:new.vigente
         ||'TIPO_CUENTA_ID = ' ||:new.tipo_cuenta_id);
-
     end if;
 
   when updating then
-
     raise_application_error(-20030,
         'La operación update para tablas fragmentadas no ha sido implementada. '
     );
-
   end case;
 end;
 /

@@ -17,7 +17,7 @@ begin
         insert into ti_documental_1(programa_id, tematica, duracion, pais_id, trailer)
         values(:new.programa_id, :new.tematica, :new.duracion,:new.pais_id,:new.trailer);
 
-        insert into documental_f2
+        insert into documental_f1
           select * from ti_documental_1 where programa_id = :new.programa_id;
 
         delete from ti_documental_1 where programa_id = :new.programa_id;
@@ -60,28 +60,28 @@ begin
   when deleting then
     select count(*) into v_count
     from programa_f1
-    where programa_id = :new.programa_id;
+    where programa_id = :old.programa_id;
 
     if v_count > 0 then
-      delete from serie_f1 where programa_id = :old.programa_id;
+      delete from documental_f1 where programa_id = :old.programa_id;
     else
       select count(*) into v_count
       from programa_f2
-      where programa_id = :new.programa_id;
+      where programa_id = :old.programa_id;
 
       if v_count > 0 then
-        delete from serie_f2 where programa_id = :old.programa_id;
+        delete from documental_f2 where programa_id = :old.programa_id;
       else
         select count(*) into v_count
         from programa_f3
-        where programa_id = :new.programa_id;
+        where programa_id = :old.programa_id;
 
         if v_count > 0 then
-          delete from serie_f3 where programa_id = :old.programa_id;
+          delete from documental_f3 where programa_id = :old.programa_id;
         else
           raise_application_error(-20020,
             'Error de integridad para el campo revista_id : '
-            || :new.programa_id
+            || :old.programa_id
             || ' No se encontró el registro padre en fragmentos');
         end if;
       end if;

@@ -61,35 +61,35 @@ begin
   when deleting then
     select count(*) into v_count
     from usuario_f5
-    where usuario_id = :new.usuario_id;
+    where usuario_id = :old.usuario_id;
 
     if v_count > 0 then
       delete from playlist_f4 where playlist_id = :old.playlist_id;
     else
       select count(*) into v_count
       from usuario_f2
-      where usuario_id = :new.usuario_id;
+      where usuario_id = :old.usuario_id;
 
       if v_count > 0 then
         delete from playlist_f1 where playlist_id = :old.playlist_id;
       else
         select count(*) into v_count
         from usuario_f4
-        where usuario_id = :new.usuario_id;
+        where usuario_id = :old.usuario_id;
 
         if v_count > 0 then
           delete from playlist_f3 where playlist_id = :old.playlist_id;
         else
           select count(*) into v_count
           from usuario_f3
-          where usuario_id = :new.usuario_id;
+          where usuario_id = :old.usuario_id;
 
           if v_count > 0 then
             delete from playlist_f2 where playlist_id = :old.playlist_id;
           else
             raise_application_error(-20020,
               'Error de integridad para el campo revista_id : '
-              || :new.usuario_id
+              || :old.usuario_id
               || ' No se encontró el registro padre en fragmentos');
           end if;
         end if;

@@ -9,6 +9,14 @@ declare
 begin
   case
   when inserting then
+    if SUBSTR(:new.folio,1, 2) not BETWEEN 'AA' and 'ZZ' THEN
+      raise_application_error(-20010,
+        'El registro que se intenta insertar o eliminar no cumple con el esquema de '
+        ||'fragmentación horizontal primaria.'
+        ||'FOLIO = ' ||:new.folio
+        ||'STATUS_PROGRAMA_ID = ' ||:new.status_programa_id);
+    end if;
+
     if substr(:new.folio,1,2) between 'AA' and 'MZ' then
 
       insert into programa_f1(programa_id, folio, nombre, descripcion, fecha_status,
@@ -31,16 +39,22 @@ begin
         :new.fecha_status, :new.tipo, :new.status_programa_id);
 
     else
-
       raise_application_error(-20010,
         'El registro que se intenta insertar o eliminar no cumple con el esquema de '
         ||'fragmentación horizontal primaria.'
         ||'FOLIO = ' ||:new.folio
         ||'STATUS_PROGRAMA_ID = ' ||:new.status_programa_id);
-
     end if;
 
   when deleting then
+    if SUBSTR(:old.folio,1, 2) not BETWEEN 'AA' and 'ZZ' THEN
+      raise_application_error(-20010,
+        'El registro que se intenta insertar o eliminar no cumple con el esquema de '
+        ||'fragmentación horizontal primaria.'
+        ||'FOLIO = ' ||:old.folio
+        ||'STATUS_PROGRAMA_ID = ' ||:old.status_programa_id);
+    end if;
+
     if substr(:old.folio,1,2) between 'AA' and 'MZ' then
 
       delete from programa_f1
@@ -57,17 +71,14 @@ begin
       where programa_id = :old.programa_id;
 
     else
-
       raise_application_error(-20010,
         'El registro que se intenta insertar o eliminar no cumple con el esquema de '
         ||'fragmentación horizontal primaria.'
         ||'FOLIO = ' ||:new.folio
         ||'STATUS_PROGRAMA_ID = ' ||:new.status_programa_id);
-
     end if;
 
   when updating then
-
     raise_application_error(-20030,
         'La operación update para tablas fragmentadas no ha sido implementada. '
     );
